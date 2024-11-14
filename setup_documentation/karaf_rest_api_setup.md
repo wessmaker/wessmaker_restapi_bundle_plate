@@ -1,12 +1,12 @@
 #### Setting up karaf to expose REST endpoint
-
-```powershell
-feature:repo-add cxf;
-feature:install -s cxf
-feature:install -s cxf-jaxrs;
-feature:install -s http;
-feature:install -s webconsole;
-```
+- Run following commands in karaf shell through SSH or directly in container
+   ```powershell
+   feature:repo-add cxf;
+   feature:install -s cxf
+   feature:install -s cxf-jaxrs;
+   feature:install -s http;
+   feature:install -s webconsole;
+   ```
 
 - Open config file "KARAF_HOME/etc/user.properties", uncomment or add following lines
    ```properties
@@ -15,7 +15,7 @@ feature:install -s webconsole;
    ```
 
 
-- Add missing packages **"java.nio."** to **KARAF_HOME/etc/jre.properties** jre-base
+- Add missing packages **"java.nio."** into **"KARAF_HOME/etc/jre.properties"** "jre-base"-file
    ```properties
    jre-base= \
     .
@@ -25,6 +25,14 @@ feature:install -s webconsole;
     .
     .
    ```
+- Install the bundle with maven in karaf shell
+  ```powershell
+  bundle:install -s mvn:fi.wessmaker/wessmaker_restapi_bundle_plate_bundle/1.0.0
+  ```
+- Generic bundle install:  
+    ```powershell
+    bundle:install -s mvn:group.id/artifactid/verion
+    ```
 
 
 ### Additional tips:
