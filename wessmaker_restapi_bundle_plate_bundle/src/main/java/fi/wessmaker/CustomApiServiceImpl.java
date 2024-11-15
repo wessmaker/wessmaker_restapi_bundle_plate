@@ -4,6 +4,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 public class CustomApiServiceImpl implements CustomApiServiceInterface {
+
    CustomPOJO customPOJO = new CustomPOJO();
 
    @Override
@@ -16,4 +17,5 @@ public class CustomApiServiceImpl implements CustomApiServiceInterface {
       customPOJO.setStatusCode(statusCode);
       return Response.status(Status.OK).entity(customPOJO).build();
    }
+
 }

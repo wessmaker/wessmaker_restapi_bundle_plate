@@ -20,23 +20,61 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
+// 
+/**
+ * CustomActivator class is declared in pom.xml
+ * and it must implement the BundleActivator
+ * 
+ * "<Bundle-Activator>fi.wessmaker.CustomActivator</Bundle-Activator>"
+ */
 public class CustomActivator implements BundleActivator {
-
     JAXRSServerFactoryBean customBean = new JAXRSServerFactoryBean();
     Server server;
 
     public void start(BundleContext context) {
         System.out.println("START method called of: " + this.getClass());
+
+        /*
+         * Without explicitly declaring the "RunTimeDelegate", REST api
+         * cannot handle HTTP method calls (GET, POST, PUT, etc.).
+         * 
+         * This fixes error: "java.lang.ClassNotFoundException:
+         * org.glassfish.jersey.internal.RuntimeDelegateImpl
+         * not found by org.eclipse.jetty.util".
+         */
         javax.ws.rs.ext.RuntimeDelegate
                 .setInstance(new org.apache.cxf.jaxrs.impl.RuntimeDelegateImpl());
+
+        /**
+         * Declares which classes will handle HTTP method calls
+         * It's that class where serviceinterface methods are implemented
+         */
         customBean.setResourceClasses(CustomApiServiceImpl.class);
+
+        /**
+         * Address to make HTTP method calls
+         */
         customBean.setAddress("http://localhost:8080/");
+
+        /**
+         * JaksonJsonProvider is registered as JSON serializator for JAX-RS
+         */
         customBean.setProvider(new JacksonJsonProvider());
+
+        /**
+         * Creates and starts the server
+         * using parameters set to the bean above
+         */
         server = customBean.create();
     }
 
     public void stop(BundleContext context) {
         System.out.println("STOP method called of: " + this.getClass());
+
+        /**
+         * Will stop the server. This is to make sure that after starting this bundle
+         * again there are no multiple instances of this server running
+         */
         if (server != null) {
             server.destroy();
         }
