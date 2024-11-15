@@ -12,12 +12,12 @@ Wessmaker's OSGI REST api bundle plate
 
 
  **Most important part** atleast for me is that there is **no boilerplate configuration madness** going on
-
-
-<br>
-<br>
-
 ***
+
+
+<br>
+<br>
+
 ## Setting up karaf for REST api 
 
  First install [apache karaf](https://karaf.apache.org/download.html)
@@ -76,13 +76,13 @@ Wessmaker's OSGI REST api bundle plate
    >```powershell
    >bundle:install -s mvn:group.id/artifactid/version
    >```
-
-
-<br>
-<br>
-
-
 ***
+
+
+<br>
+<br>
+
+
 ## Using the default REST api 
 > Use postman, curl or insomnia to do HTTP calls
 
@@ -91,13 +91,13 @@ Wessmaker's OSGI REST api bundle plate
 - GET method returns (produces) JSON object 
 - POST method takes (consumes) JSON object and also returns (produces) echo JSON object
 - After calling GET or POST to the address api should return the JSON and code also "200 OK"
-
-
-<br>
-<br>
-
-
 ***
+
+
+<br>
+<br>
+
+
 ### Avoiding errors 
 
 > **java.lang.ClassNotFoundException: org.glassfish.jersey.internal.RuntimeDelegateImpl not found by org.eclipse.jetty.util**
