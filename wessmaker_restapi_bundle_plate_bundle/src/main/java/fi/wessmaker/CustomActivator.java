@@ -20,22 +20,47 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
-public class Activator implements BundleActivator {
+// 
+/**
+ * CustomActivator class is declared in pom.xml
+ * and it must implement the BundleActivator
+ * 
+ * "<Bundle-Activator>fi.wessmaker.CustomActivator</Bundle-Activator>"
+ */
+public class CustomActivator implements BundleActivator {
     JAXRSServerFactoryBean bean = new JAXRSServerFactoryBean();
     Server server;
 
     public void start(BundleContext context) {
-        System.out.println("STARTING REST API BUNDLE");
+        System.out.println("START method called of: " + this.getClass());
+
+        // Without explicitly declaring the "RunTimeDelegate", REST api
+        // cannot handle HTTP method calls (GET, POST, PUT, etc.).
+        /*
+         * This fixes error: "java.lang.ClassNotFoundException:
+         * org.glassfish.jersey.internal.RuntimeDelegateImpl
+         * not found by org.eclipse.jetty.util".
+         */
         javax.ws.rs.ext.RuntimeDelegate
                 .setInstance(new org.apache.cxf.jaxrs.impl.RuntimeDelegateImpl());
-        bean.setResourceClasses(CustomApiImpl.class);
+
+        // Declares which classes will handle HTTP method calls
+        // It's that class where serviceinterface methods are implemented
+        bean.setResourceClasses(CustomApiServiceImpl.class);
+
+        // Address to make HTTP method calls
         bean.setAddress("http://localhost:8080/");
+
+        // JaksonJsonProvider is registered as JSON serializator for JAX-RS
         bean.setProvider(new JacksonJsonProvider());
+
+        // Creates and starts the server
+        // using parameters set to the bean above
         server = bean.create();
     }
 
     public void stop(BundleContext context) {
-        System.out.println("Stopping the bundle");
+        System.out.println("STOP method called of: " + this.getClass());
         if (server != null) {
             server.destroy();
         }

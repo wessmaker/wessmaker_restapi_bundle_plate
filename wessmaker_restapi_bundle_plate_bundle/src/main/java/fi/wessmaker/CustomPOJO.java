@@ -1,5 +1,9 @@
 package fi.wessmaker;
 
+/**
+ * Custom Plain Old Java Object
+ * basically object which has only basic variables
+ */
 public class CustomPOJO {
 
    private int statusCode;

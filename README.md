@@ -1,12 +1,10 @@
+## wessmaker's OSGI REST api bundle plate
+This project was created mostly for personal usage but may help simplify the 
+
+
+
+
 #### Setting up karaf to expose REST endpoint
-- Run following commands in karaf shell through SSH or directly in container
-   ```powershell
-   feature:repo-add cxf;
-   feature:install -s cxf
-   feature:install -s cxf-jaxrs;
-   feature:install -s http;
-   feature:install -s webconsole;
-   ```
 
 - Open config file "KARAF_HOME/etc/user.properties", uncomment or add following lines
    ```properties
@@ -25,14 +23,29 @@
     .
     .
    ```
+
+- Run karaf.bat in KARAF_HOME/bin
+
+
+- Run following commands in karaf shell through SSH or directly in container
+   ```powershell
+   feature:repo-add cxf;
+   feature:install -s cxf
+   feature:install -s cxf-jaxrs;
+   feature:install -s http;
+   feature:install -s webconsole;
+   ```
+
+
 - Install the bundle with maven in karaf shell
   ```powershell
   bundle:install -s mvn:fi.wessmaker/wessmaker_restapi_bundle_plate_bundle/1.0.0
   ```
-- Generic bundle install:  
-    ```powershell
-    bundle:install -s mvn:group.id/artifactid/verion
-    ```
+
+   **Generic bundle install:**  
+   ```powershell
+   bundle:install -s mvn:group.id/artifactid/verion
+   ```
 
 
 ### Additional tips:
@@ -52,7 +65,7 @@
    ```
 
 
--  Explicitly set the RunTimeDelegate to avoid issues of classes not found
+-  Explicitly setting the RunTimeDelegate to avoid issues of classes not found
    ```java
    javax.ws.rs.ext.RuntimeDelegate.setInstance(new org.apache.cxf.jaxrs.impl.RuntimeDelegateImpl());
    // This explicitly sets the RunTimeDelegate

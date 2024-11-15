@@ -21,32 +21,35 @@
     -->
 
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>fi.wessmaker</groupId>
     <artifactId>wessmaker_restapi_bundle_plate_bundle</artifactId>
     <version>1.0.0</version>
     <packaging>bundle</packaging>
-
     <name>wessmaker_restapi_bundle_plate_bundle Bundle</name>
     <description>
-        wessmaker_restapi_bundle_plate_bundle OSGi bundle project.
+        Simple OSGI REST api implementation
     </description>
+
+
 
     <properties>
         <osgi.version>6.0.0</osgi.version>
         <maven-bundle-plugin.version>5.1.9</maven-bundle-plugin.version>
         <jackson.version>2.18.0</jackson.version>
-        <cxf.version>3.6.4</cxf.version>
-        <jersey.version>2.30.1</jersey.version>
+        <!--This version of cxf i installed by default in karaf with feature:install cxf -->
+        <cxf.version>3.6.4</cxf.version> 
     </properties>
 
 
 
-
     <dependencies>
-    <!--MANDATORY DEPENDENCIES-->
-    <!--MANDATORY DEPENDENCIES-->
-    <!--MANDATORY DEPENDENCIES-->
+        <!--
+        org.osgi.core & cxf-rt-frontend-jaxrs are in "provided" scope
+        "provided" dependencies have to be installed to karaf manually
+
+        org.osgi.core is already "provided" by karaf itself
+        cxf-rt-frontend-jaxrs is "provided" by "feature:install cxf"
+        -->
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
@@ -54,6 +57,19 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.apache.cxf</groupId> <!--"main" rest service dependency-->
+            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+            <version>${cxf.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+
+
+        <!--
+        jackson dependencies (embedded to this bundle)
+        are used for REST JSON parsing
+        -->
+         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>${jackson.version}</version>
@@ -73,49 +89,21 @@
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
-            <artifactId>jackson-jaxrs-json-provider</artifactId>
-            <version>${jackson.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-base</artifactId>
             <version>${jackson.version}</version>
             <scope>compile</scope>
         </dependency>
+
+        <!--
+        Provides class "JacksonJsonProvider"
+        is used in Activator class with the "JAXRSServerFactoryBean"
+        -->
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-            <version>${cxf.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.hk2.external</groupId>
-            <artifactId>jakarta.inject</artifactId>
-            <version>2.6.1</version>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <version>${jackson.version}</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>org.glassfish.hk2</groupId>
-            <artifactId>osgi-resource-locator</artifactId>
-            <version>1.0.3</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-common</artifactId>
-            <version>${jersey.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>${jersey.version}</version>
-            <scope>compile</scope>
-        </dependency>
-    <!--MANDATORY DEPENDENCIES-->
-    <!--MANDATORY DEPENDENCIES-->
-    <!--MANDATORY DEPENDENCIES-->
     </dependencies>
     
 
@@ -130,24 +118,20 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Version>${project.version}</Bundle-Version>
-                        <Bundle-Activator>fi.wessmaker.Activator</Bundle-Activator>
+                        <Bundle-Activator>fi.wessmaker.CustomActivator</Bundle-Activator> <!---->
                         <Export-Package>
-                            fi.wessmaker
+                            fi.wessmaker <!--Exporting everything-->
                         </Export-Package>
                         <Import-Package>
-                            *
+                            * <!--Importing everything-->
                         </Import-Package>
-                        <Embed-Dependency>
+                        <Embed-Dependency><!--Embedding bundles to not mess with custom karaf features-->
                             cxf-rt-frontend-jaxrs;scope=compile|runtime,
                             jackson-core;scope=compile|runtime,
                             jackson-databind;scope=compile|runtime,
                             jackson-annotations;scope=compile|runtime,
                             jackson-jaxrs-json-provider;scope=compile|runtime,
                             jackson-jaxrs-base;scope=compile|runtime,
-                            jakarta.inject;scope=compile|runtime,
-                            osgi-resource-locator;scope=compile|runtime,
-                            jersey-client;scope=compile|runtime,
-                            jersey-common;scope=compile|runtime
                         </Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
                     </instructions>

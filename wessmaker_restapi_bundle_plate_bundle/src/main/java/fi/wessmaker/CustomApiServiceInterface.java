@@ -9,7 +9,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/custompath")
-public interface CustomApiService {
+public interface CustomApiServiceInterface {
 
    @GET
    @Produces(MediaType.APPLICATION_JSON)
