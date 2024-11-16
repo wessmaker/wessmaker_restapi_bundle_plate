@@ -2,7 +2,7 @@ Wessmaker's OSGI REST api bundle plate
 ==========
 
 
- This project's goal is to **show simple way** to implement **OSGI REST api as bundle**. This project is **ready template** to start building on. But it works as **api example** without **any** modifications
+ This project's goal is to **show simple way** to implement **OSGI REST api as bundle**. This project is **ready template** to start building on. But it works also as an **api example** without **any** modifications
 
 
  There are 2 version of same project, one with **clarifying comments** and one **without**. **Both projects are codevice identical**
