@@ -84,7 +84,7 @@ Wessmaker's OSGI REST api bundle plate
 
 
 ## Using the default REST api 
-> Use postman, curl or insomnia to do HTTP calls
+> Use postman, curl or insomnia to do HTTP requests
 
 - Default address for api is http://localhost:8080/custompath
 - There is GET and POST method implemented by default
