@@ -135,7 +135,8 @@
                             jackson-jaxrs-json-provider;scope=compile|runtime,
                             jackson-jaxrs-base;scope=compile|runtime,
                         </Embed-Dependency>
-                        <Embed-Transitive>true</Embed-Transitive>
+                        <!-- Embed transitive = true will allow bundle plugin to search for dependencies of dependencies and embed them -->
+                        <Embed-Transitive>true</Embed-Transitive> 
                     </instructions>
                 </configuration>
             </plugin>
